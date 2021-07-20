@@ -28,8 +28,8 @@ def simplify(p, debug=False):
     return list
 
 
-simplify(
-    """
-        * Hello you'll --                    \t [there-how hey]- is -you's this (: ( * the hey ' , there : : those , ) these ' a are just you !? . *
-        and i don't . . . has this normally and can't isn't don't hasn't had will a the just
-    """, True)
+#simplify(
+ #   """
+  #      * Hello you'll --                    \t [there-how hey]- is -you's this (: ( * the hey ' , there : : those , ) these ' a are just you !? . *
+   #     and i don't . . . has this normally and can't isn't don't hasn't had will a the just
+    #""", True)
