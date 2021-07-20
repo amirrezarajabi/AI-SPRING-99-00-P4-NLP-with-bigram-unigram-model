@@ -1,0 +1,43 @@
+
+". . ."	""
+
+# go the next phase
+
+next_phase
+
+"*'"	"*" =
+","		"" =
+":"		"" =
+"("		"" =
+")"		"" =
+"'"		"" =
+"'*"	"" =
+"--"	"" =
+"-"		"" =
+"*-"	"" =
+"-*"	"" =
+"*-*"	"* *" =
+"\""	"" =
+"\*"	"" =
+"*'s"	"*"
+"[*]"	""
+"will"	""
+"*'ll"	"*"
+"a"		""
+"this"	""
+"that"	""
+"these"	""
+"those"	""
+"just"	""
+"the"	""
+"is"	""
+"isn't"	"not"
+"doesn't"	"not"
+"don't"		"not"
+"can't"	"can not"
+"haven't"	"have not"
+"hasn't"	"have not"
+"has"		"have"
+"hadn't"	"have not"
+"had"		"have"
+"you're"  "you are"

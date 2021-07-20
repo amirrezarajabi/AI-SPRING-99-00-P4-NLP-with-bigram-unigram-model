@@ -1,9 +1,10 @@
 from simplify import *
+
+
 def read():
     # open
     pos_file = open('./data/rt-polarity.POS', 'r')
     neg_file = open('./data/rt-polarity.NEG', 'r')
-
 
     # extract data from file
     pos = pos_file.readlines()
@@ -16,6 +17,7 @@ def read():
         neg[i] = simplify(neg[i])
 
     return pos, neg
+
 
 def extract_densitey(pos, neg):
     # POS density
@@ -35,11 +37,10 @@ def extract_densitey(pos, neg):
                     else:
                         pos_density[pos[i][j]][1]["\n"] = 1
             else:
-                if(j + 1< len(pos[i])):
-                    pos_density[pos[i][j]] = [1,{pos[i][j+1]:1}]
+                if(j + 1 < len(pos[i])):
+                    pos_density[pos[i][j]] = [1, {pos[i][j+1]:1}]
                 else:
-                    pos_density[pos[i][j]] = [1,{"\n":1}]
-
+                    pos_density[pos[i][j]] = [1, {"\n": 1}]
 
     # NEG density
     neg_density = {}
@@ -58,10 +59,10 @@ def extract_densitey(pos, neg):
                     else:
                         neg_density[neg[i][j]][1]["\n"] = 1
             else:
-                if(j + 1< len(neg[i])):
-                    neg_density[neg[i][j]] = [1,{neg[i][j+1]:1}]
+                if(j + 1 < len(neg[i])):
+                    neg_density[neg[i][j]] = [1, {neg[i][j+1]:1}]
                 else:
-                    neg_density[neg[i][j]] = [1,{"\n":1}]
+                    neg_density[neg[i][j]] = [1, {"\n": 1}]
     return pos_density, neg_density
 
 
@@ -73,12 +74,14 @@ def uni_density(density):
         m += U[s]
     return U, m
 
+
 def bi_density(density):
     B = {}
     for s in density.keys():
         for n in density[s][1]:
             B[(s, n)] = density[s][1][n]
     return B
+
 
 def bi_Prob(x, y, uni, bi):
     if(bi.get((x, y)) != None):
@@ -91,14 +94,18 @@ def uni_P(x, uni, m):
         return uni.get(x)/m
     return 0
 
+
 def bi_p(x, y, uni, bi, m, lambda1, lambda2, lambda3, epsilon):
     return bi_Prob(x, y, uni, bi) * lambda3 + uni_P(y, uni, m) * lambda2 + lambda1 * epsilon
 
+
 def P(W, bi, uni, m, lambda1, lambda2, lambda3, epsilon):
-    p = uni_P(W[0], uni, m) 
+    p = uni_P(W[0], uni, m)
     for i in range(1, len(W)):
-        p = p * bi_p(W[i-1], W[i], uni, bi, m, lambda1, lambda2, lambda3, epsilon)
+        p = p * bi_p(W[i-1], W[i], uni, bi, m, lambda1,
+                     lambda2, lambda3, epsilon)
     return p
+
 
 def P_U(W, uni, m, lambda1, lambda2, epsilon):
     p = 1
@@ -106,15 +113,18 @@ def P_U(W, uni, m, lambda1, lambda2, epsilon):
         p = p * (uni_P(W[0], uni, m) * lambda2 + lambda1 * epsilon)
     return p
 
+
 def filterWB(W, bi_pos, uni_pos, m_pos, bi_neg, uni_neg, m_neg, lambda1, lambda2, lambda3, epsilon):
     if(P(W, bi_pos, uni_pos, m_pos, lambda1, lambda2, lambda3, epsilon) >= P(W, bi_neg, uni_neg, m_neg, lambda1, lambda2, lambda3, epsilon)):
         return "not filter this"
     return "filter this"
 
+
 def filterWU(W, uni_pos, m_pos, uni_neg, m_neg, lambda1, lambda2, epsilon):
     if(P_U(W, uni_pos, m_pos, lambda1, lambda2, epsilon) >= P_U(W, uni_neg, m_neg, lambda1, lambda2, epsilon)):
         return "not filter this"
     return "filter this"
+
 
 def testB(flag):
     pos, neg = read()
@@ -134,10 +144,11 @@ def testB(flag):
         comment = "not filter this"
     j = 0
     for i in range(len(test)):
-        if(filterWB(test[i], bi_pos, uni_pos, m_pos, bi_neg, uni_neg, m_neg, 0.00001, 0.0001, 0.001, 0.5) == comment):
+        if(filterWB(test[i], bi_pos, uni_pos, m_pos, bi_neg, uni_neg, m_neg, 0.88, 0.10, 0.02, 0.001) == comment):
             j += 1
     print(len(test), j)
     print(round(1 - j/len(test), 4))
+
 
 def testU(flag):
     pos, neg = read()
@@ -158,9 +169,12 @@ def testU(flag):
     j = 0
     for i in range(len(test)):
         if(filterWU(test[i], uni_pos, m_pos, uni_neg, m_neg, 0.00001, 0.0001, 0.5) == comment):
-            
+
             j += 1
     print(len(test), j)
-    print(round(1 - j/len(test),4))
-testU(True)
+    print(round(1 - j/len(test), 4))
+
+
+# testU(True)
 testB(True)
+testB(False)
